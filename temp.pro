@@ -24,6 +24,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        timeline.cpp
+        timeline.cpp \
+    ruler.cpp
 
-HEADERS  += timeline.h
+HEADERS  += timeline.h \
+    ruler.h
