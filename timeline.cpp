@@ -7,6 +7,8 @@
 #include <QLineEdit>
 #include "ruler.h"
 #include <QScrollBar>
+#include <QPaintEvent>
+#include <QStylePainter>
 
 timeline::timeline(QWidget *parent)
     : QWidget(parent)
@@ -69,4 +71,12 @@ void timeline::rulerRepaint(QRect rec)
 {
 //    tmpLabel->setNum(rec.left());
     tmpLabel->setNum((int)(1.4+0.5));
+}
+
+void timeline::paintEvent(QPaintEvent *event)
+{
+    QStylePainter p(this);
+    const QRect &paintRect = event->rect();
+    p.drawLine(0,0,paintRect.right(),paintRect.bottom());
+
 }

@@ -28,6 +28,9 @@ public slots:
 
 private:
     QLabel *tmpLabel;
+
+protected:
+    void paintEvent(QPaintEvent *event);
 };
 
 #endif // TIMELINE_H

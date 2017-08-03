@@ -61,6 +61,13 @@ void Ruler::paintEvent(QPaintEvent *event)
 
 //  longLine은 무조건 초단위로 간다 zoom값에 의해 라인 간격이 2,3개등의로 넓어지면 longLine위에 초도 2초,3초 단위로 올라간다.
 
+/*  ruluer와 상관없는 메모
+ * 나중에 트렉에서 클립명을 검색할때 스크롤+클릭위치와 앞클립길이를 더해 가면서 forLoop를 돌린다.
+ * 참고 QtTreeView에 QTreeViewPrivate::itemAtCoordinate(int coordinate)함수 참조
+ * 현재 생각하는 구현 방법에서는 상위 트랙부터 앞클립의 in out을 비교해가며 forLoop
+ * 속도가 느리다면 다시 구현방법 생각해본다.
+ */
+
     setPixelperLine();
     QStylePainter p(this);
     const QRect &paintRect = event->rect();
