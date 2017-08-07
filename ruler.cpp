@@ -3,10 +3,15 @@
 #include <QResizeEvent>
 #include <QStylePainter>
 
+/* 24*60*60*24=2073600 24fps일때 24시간의 프레임수
+ * offset + (width/defaultFramePixel)*zoom_factor = totalFrameCount
+ * Max_zoom_factor = (2073600-offset)/(width/defaultFramePixel)
+ */
+
 Ruler::Ruler(QWidget *parent) : QWidget(parent)
 {
     this->setFixedHeight(50);
-    this->setMinimumWidth(500);
+//    this->setMinimumWidth(500);
     m_zoom = 1.0;
     m_offset = 0;
     setFocusPolicy(Qt::ClickFocus);
@@ -29,8 +34,12 @@ int Ruler::offset()
 
 void Ruler::setZoom(double zoom)
 {
+/*  100 = defaultFrameSize/zoom
+ *  zoom = defaultFrameSize/100
+ */
     if(m_zoom != zoom)
     {
+        double minZoomFactor = defaultFrameSize/100;
         if(zoom > 8)
         {
             m_zoom = 8;
@@ -47,9 +56,11 @@ void Ruler::setOffset(int offset)
 {
     if(m_offset!=offset)
     {
+//        (this->width()/defaultFrameSize)
         m_offset = offset;
         m_rulerEndFrame = m_rulerDuration+m_offset;
         this->update();
+        emit changedOffset(m_offset);
     }
 }
 
@@ -67,18 +78,17 @@ void Ruler::paintEvent(QPaintEvent *event)
  * 현재 생각하는 구현 방법에서는 상위 트랙부터 앞클립의 in out을 비교해가며 forLoop
  * 속도가 느리다면 다시 구현방법 생각해본다.
  */
-
     setPixelperLine();
     QStylePainter p(this);
     const QRect &paintRect = event->rect();
     emit resetPaintRect(paintRect);
     p.setClipRect(paintRect);
     p.fillRect(paintRect,palette().midlight().color());
-    for(double i=0-m_offset;i<this->size().width()/defaultFrameSize/m_zoom;i+=shotLineDistance)
+    for(double i=0-(int)m_offset;i<this->size().width()/defaultFrameSize/m_zoom;i+=shotLineDistance)
     {
         p.drawLine(i*m_zoom*defaultFrameSize,20,i*m_zoom*defaultFrameSize,30);
     }
-    for(double i=0-m_offset;i<this->size().width()/m_zoom/defaultFrameSize;i+=longLineDistance)
+    for(double i=0-(int)m_offset;i<this->size().width()/m_zoom/defaultFrameSize;i+=longLineDistance)
     {
         p.drawLine(i*m_zoom*defaultFrameSize,15,i*m_zoom*defaultFrameSize,35);
     }

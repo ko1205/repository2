@@ -69,14 +69,15 @@ timeline::~timeline()
 
 void timeline::rulerRepaint(QRect rec)
 {
-//    tmpLabel->setNum(rec.left());
-    tmpLabel->setNum((int)(1.4+0.5));
+    tmpLabel->setNum(rec.left());
+//    int temp = ruler->zoom();
+//    tmpLabel->setNum((ruler->zoom())+10);
 }
 
 void timeline::paintEvent(QPaintEvent *event)
 {
-    QStylePainter p(this);
-    const QRect &paintRect = event->rect();
-    p.drawLine(0,0,paintRect.right(),paintRect.bottom());
+//    QStylePainter p(this);
+//    const QRect &paintRect = event->rect();
+//    p.drawLine(0,0,paintRect.right(),paintRect.bottom());
 
 }

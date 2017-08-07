@@ -16,6 +16,7 @@ public:
 signals:
     void resized(int);
     void resetPaintRect(QRect rect);
+    void changedOffset(int);
 
 public slots:
 //    void initSetup();
@@ -31,7 +32,7 @@ protected:
 private:
     void setPixelperLine();
 
-    int m_offset;
+    unsigned int m_offset;
     double m_zoom;
     int defaultFrameSize = 10;//추후에 외부 셋팅으로 변경
     double shotLineDistance;
